@@ -1,0 +1,29 @@
+[
+  {
+    "id": "5079a5c7",
+    "title": "Cerveza Quilmes",
+    "description": "Mas Quilmes mas cerveza",
+    "price": 400,
+    "thumbnail": "https//quilmes.com.ar",
+    "code": "ww4",
+    "stock": 300
+  },
+  {
+    "id": "e1f0c9f8",
+    "title": "Cerveza Andes",
+    "description": "Cerveza mas de verdad",
+    "price": 500,
+    "thumbnail": "https//cervezaandes.com.ar",
+    "code": "asssds34",
+    "stock": 400
+  },
+  {
+    "id": "b369b223",
+    "title": "Cerveza Andes",
+    "description": "Cerveza mas de verdad",
+    "price": 500,
+    "thumbnail": "https//cervezaandes.com.ar",
+    "code": "as34",
+    "stock": 400
+  }
+]
