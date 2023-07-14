@@ -7,9 +7,9 @@ export class ProductManager{
         this.path = path;
     }
     
-    async addProduct(title, description, price, thumbnail, code, stock){
-        
-        if(!title || !description || !price || !thumbnail || !code || !stock){
+    async addProduct(prd){
+        const { title, description, price, thumbnails, code, stock } = prd;
+        if(!title || !description || !price || !thumbnails || !code || !stock){
             throw new Error("All fields are required.")
         };
         try{
@@ -25,7 +25,7 @@ export class ProductManager{
                     title, 
                     description, 
                     price, 
-                    thumbnail, 
+                    thumbnails, 
                     code, 
                     stock
                 };
