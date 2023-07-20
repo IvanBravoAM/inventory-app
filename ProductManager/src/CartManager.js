@@ -46,9 +46,7 @@ export class CartManager{
             let cartIndex = carts.findIndex((cart) => cart.id === cid)
             let product = null;
             carts[cartIndex].products.forEach((prd) => {
-                console.log(pid==prd.productId)
                 if (prd.productId === pid) {
-                    
                     product = prd;
                 }});
                 console.log(product)    

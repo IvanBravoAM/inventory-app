@@ -5,8 +5,10 @@
     "description": "Mas Quilmes mas cerveza",
     "price": 400,
     "thumbnail": "https//quilmes.com.ar",
-    "code": "ww4",
-    "stock": 300
+    "code": "ww7",
+    "stock": 300,
+    "category": "Beer",
+    "status": true
   },
   {
     "id": "dcb16120",
@@ -15,15 +17,30 @@
     "price": 600,
     "thumbnails": "https//imperial.com.ar",
     "code": "ww5",
-    "stock": 100
+    "stock": 100,
+    "category": "Beer",
+    "status": true
   },
   {
-    "id": "85cea274",
+    "id": "5a90a539",
     "title": "Cerveza Andes",
     "description": "Cerveza mas de verdad",
     "price": 500,
     "thumbnails": "https//cervezaandes.com.ar",
-    "code": "ww56665w",
-    "stock": 150
+    "code": "w5w",
+    "stock": 150,
+    "category": "Beer",
+    "status": true
+  },
+  {
+    "id": "97f8d6a9",
+    "title": "Cerveza Budweiser",
+    "description": "Sponsor oficial de la seleccion argentina",
+    "price": 450,
+    "thumbnails": "https://budweiser.com.ar",
+    "code": "ww8",
+    "stock": 300,
+    "category": "Beer",
+    "status": false
   }
 ]

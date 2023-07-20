@@ -8,8 +8,8 @@ export class ProductManager{
     }
     
     async addProduct(prd){
-        const { title, description, price, thumbnails, code, stock } = prd;
-        if(!title || !description || !price || !thumbnails || !code || !stock){
+        const { title, description, price, thumbnails, code, stock, status, category } = prd;
+        if(!title || !description || !price || !code || !stock || !category){
             throw new Error("All fields are required.")
         };
         try{
@@ -19,7 +19,6 @@ export class ProductManager{
                 throw new Error("The code is already registered.")
             }
             else{
-                ProductManager.lastID++;
                 const product = {
                     id: crypto.randomBytes(4).toString('hex'),
                     title, 
@@ -27,7 +26,9 @@ export class ProductManager{
                     price, 
                     thumbnails, 
                     code, 
-                    stock
+                    stock,
+                    category,
+                    status
                 };
                 products.push(product);
                 await FileManager.writeFile(this.path, products);

@@ -1,1 +1,40 @@
-[{"id":"a99a","products":[{"productId":"5079a5c7","quantity":3}]},{"id":"d661","products":[{"productId":"5079a5c7","quantity":2},{"productId":"dcb16120","quantity":4}]}]
+[
+  {
+    "id": "a99a",
+    "products": [
+      {
+        "productId": "5079a5c7",
+        "quantity": 3
+      },
+      {
+        "productId": "5a90a539",
+        "quantity": 5
+      },
+      {
+        "productId": "dcb16120",
+        "quantity": 2
+      }
+    ]
+  },
+  {
+    "id": "d661",
+    "products": [
+      {
+        "productId": "5079a5c7",
+        "quantity": 4
+      },
+      {
+        "productId": "dcb16120",
+        "quantity": 4
+      },
+      {
+        "productId": "97f8d6a9",
+        "quantity": 6
+      }
+    ]
+  },
+  {
+    "id": "49b9",
+    "products": []
+  }
+]

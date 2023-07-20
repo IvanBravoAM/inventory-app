@@ -3,7 +3,7 @@ import { ProductManager } from "../ProductManager.js";
 import RouterHelper from "../RouterHelper.js";
 
 const router = Router();
-const productManager = new ProductManager("products.json");
+const productManager = new ProductManager("src/products.json");
 
 router.get('/', async (req,res)=>{
     console.log("req body"+req.body);
@@ -19,27 +19,27 @@ router.get('/', async (req,res)=>{
 })
 
 
-router.get("/:pid", RouterHelper.getProductByIdRoute);
+router.get("/:pid", async (req, res)=>{
+    let response = await RouterHelper.getProductByIdRoute(req, res);
+    console.log(response)
+    res.json(response)});
 
 router.post("/",async (req, res)=>{
     try{
-    const {title, description, price, thumbnails, code, status, stock, category} = req.body;
-    const prd = {};
-    console.log(category)
-    if(!title || !description || !code || !price || !stock || !category){
-        res.json({message: "Missing fields"});
-    }else{
-        prd.title = title;
-        prd.description = description;
-        prd.code = code;
-        prd.price = price;
-        prd.status = !status || typeof status !== "boolean" ? true : status;
-        prd.stock = stock;
-        prd.category = category;
-        prd.thumbnails = !thumbnails ? "" : thumbnails;
-    }
-
-    
+        const {title, description, price, thumbnails, code, status, stock, category} = req.body;
+        const prd = {};
+        if(!title || !description || !code || !price || !stock || !category){
+            res.json({message: "Missing fields"});
+        }else{
+            prd.title = title;
+            prd.description = description;
+            prd.code = code;
+            prd.price = price;
+            prd.status = !status || typeof status !== "boolean" ? true : status;
+            prd.stock = stock;
+            prd.category = category;
+            prd.thumbnails = !thumbnails ? "" : thumbnails;
+        }
         const response = await productManager.addProduct(prd);
         res.json({
             message: "product succesfully added",
@@ -54,25 +54,21 @@ router.post("/",async (req, res)=>{
 });
 
 router.put("/:pid",async (req, res)=>{
-    console.log("req body"+req.body);
     try{
         const {pid} = req.params;
-        if (req.body && typeof req.body === 'object') {
+        if(req.body && typeof req.body === 'object'){
             const filteredParams = Object.entries(req.body)
-            .filter(([key, value]) => value !== null && value !== undefined)
+            .filter(([key, value]) => value !== null && value !== undefined && key != 'id')
             .reduce((acc, [key, value]) => {
                 acc[key] = value;
                 return acc;
             }, {});
-        
-            // Use the filteredParams object as needed
-            console.log(filteredParams)
-            const response = await productManager.updateProductById(pid, filteredParams);
+
+            const prd = await productManager.updateProductById(pid, filteredParams);
             res.json({data:prd, msg:'success'});
 
-        } else {
-            // Handle the case when req.body is undefined or null
-            console.log("error ")
+        }else {
+            console.log("error")
         };
     }catch(error){
         console.log(error);
@@ -80,7 +76,6 @@ router.put("/:pid",async (req, res)=>{
             message:"server failure"
         })
     }
-    
 });
 
 router.delete("/:pid", async (req, res)=>{

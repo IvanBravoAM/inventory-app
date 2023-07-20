@@ -4,7 +4,7 @@ import productRouter from './products.router.js';
 import RouterHelper from "../RouterHelper.js";
 
 const router = Router();
-const cartManager = new CartManager("carts.json");
+const cartManager = new CartManager("src/carts.json");
 router.use("/products", productRouter);
 
 router.get("/:cid", async (req, res)=>{
@@ -36,12 +36,15 @@ router.post("/",async (req, res)=>{
 router.post("/:cid/products/:pid", async (req, res)=>{
     const {cid, pid} = req.params;
     let cart = await cartManager.getCartById(cid);
-    console.log(cart)
     if(cart){
-        if(RouterHelper.getProductByIdRoute(req,res)){
-            cartManager.addProduct(cid, pid)
+        let prd = await RouterHelper.getProductByIdRoute(req,res);
+        if(prd.msg == 'success'){
+            const response = await cartManager.addProduct(cid, pid);
+            res.json({msg:'success'});
+        }else{
+            res.json({data:cart, msg:'no product found'});
         }
-        //res.json({data:cart, msg:'success'});
+        
     }else{
         res.json({data:cart, msg:'no cart found'});
     }
