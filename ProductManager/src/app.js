@@ -1,6 +1,7 @@
 import express from 'express';
 import productRouter from './router/products.router.js';
 import cartRouter from './router/carts.router.js';
+import viewsRouter from './router/views.router.js';
 import realTimeRouter from './router/realTimeProduct.router.js'; 
 import {engine} from "express-handlebars";
 import {createServer} from "http";
@@ -17,12 +18,16 @@ app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
 app.set("views", "src/views" );
 
+app.use(express.static("public"));
+
 
 app.use(express.json());
 
 app.use("/api/products", productRouter);
 
 app.use("/api/carts", cartRouter);
+
+app.use("/", viewsRouter);
 
 app.use("/real", realTimeRouter); 
 
@@ -34,10 +39,7 @@ app.use("/real", realTimeRouter);
 
 
 
-// Iniciar el servidor HTTP
-httpServer.listen(PORT, () => {
-    console.log(`Servidor en ejecución en http://localhost:${PORT}`);
-});
+
 
 const socketIO = new Server(httpServer);
 
@@ -46,7 +48,7 @@ socketIO.on('connection', (socket)=>{
 
     socket.on("addProduct", async (newProduct) => {
         const response = await productManager.addProduct(newProduct);
-        io.emit("newProductAdded", newProduct);
+        socketIO.emit("newProductAdded", newProduct);
     });
 
     socket.on("deleteProduct", async (productID) => {
@@ -56,4 +58,7 @@ socketIO.on('connection', (socket)=>{
 });
 
 
-
+// Iniciar el servidor HTTP
+httpServer.listen(PORT, () => {
+    console.log(`Servidor en ejecución en http://localhost:${PORT}`);
+});
