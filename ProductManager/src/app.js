@@ -8,10 +8,18 @@ import {createServer} from "http";
 import  {Server} from "socket.io"
 import { ProductManager } from "./ProductManager.js";
 const productManager = new ProductManager("src/products.json");
+import userRouter from './router/users.router.js';
+import messageRouter from './router/message.router.js';
+import mongoose from 'mongoose';
 
 const app = express();
 const httpServer = createServer(app);
 const PORT = 8080;
+
+mongoose.connect('mongodb+srv://ivanbravo2201:bwOeW7Da8fBCqBE9@coderdb.dvyqzjc.mongodb.net/?retryWrites=true&w=majority');
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
 
 //handlebars config
 app.engine("handlebars", engine());
@@ -30,6 +38,10 @@ app.use("/api/carts", cartRouter);
 app.use("/", viewsRouter);
 
 app.use("/real", realTimeRouter); 
+
+app.use("/api/users", userRouter);
+
+app.use("/chat", messageRouter);
 
 // app.listen(PORT ,() =>{
 //     console.log('SERVER LISTENING ON PORT 8080');
