@@ -11,6 +11,9 @@ const productManager = new ProductManager("src/products.json");
 import userRouter from './router/users.router.js';
 import messageRouter from './router/message.router.js';
 import mongoose from 'mongoose';
+import morganBody from 'morgan-body';
+
+import { messageModel } from '../src/models/message.model.js';
 
 const app = express();
 const httpServer = createServer(app);
@@ -28,7 +31,7 @@ app.set("views", "src/views" );
 
 app.use(express.static("public"));
 
-
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use("/api/products", productRouter);
@@ -67,9 +70,19 @@ socketIO.on('connection', (socket)=>{
         const response = await productManager.deleteProductById(productID);
         console.log("product deleted");
     });
+
+    socket.on("addMessage", async (chat) => {
+        const {user,message} = chat;
+        let result = await messageModel.create({
+            user,
+            message
+        });
+        console.log('new message '+ result);
+        socketIO.emit('newMessage', chat);
+    });
 });
 
-
+morganBody(app);
 // Iniciar el servidor HTTP
 httpServer.listen(PORT, () => {
     console.log(`Servidor en ejecución en http://localhost:${PORT}`);
