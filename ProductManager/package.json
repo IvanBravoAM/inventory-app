@@ -16,6 +16,7 @@
     "express-handlebars": "^7.1.0",
     "mongodb": "^5.7.0",
     "mongoose": "^7.4.2",
+    "mongoose-paginate-v2": "^1.7.31",
     "morgan-body": "^2.6.9",
     "nodemon": "^2.0.22",
     "postcss-cli": "^10.1.0",

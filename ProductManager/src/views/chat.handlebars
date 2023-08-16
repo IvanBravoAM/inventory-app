@@ -1,13 +1,12 @@
 <div class="bg-white rounded-lg p-4 shadow">
   <h1 class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium">Chat real</h1>
-  <div class=" h-64 border p-4 overflow-auto">
-    
+  <div class=" h-72 border p-4 overflow-auto flex">
     <ul class="divide-y divide-gray-100" id="messagesList">
         {{#each messages}}
-        <h3 class="text-base font-semibold leading-7 text-gray-900">{{this.user}}</h3>
-        <li class="flex justify-between gap-x-6 py-5">
+        <li class="bg-gray-200 max-w-m py-2 px-4 rounded-tl-lg rounded-br-lg">
             {{this.message}}
         </li>
+        <h3 class="text-left mb-4 mt-2 mr-2 text-sm text-gray-500">{{this.user}}</h3>
         {{/each}}
     </ul>
   </div>
@@ -22,6 +21,5 @@
     </div>
     <button class="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600" type="submit">Send</button>
   </form>
-    
 
 </div>

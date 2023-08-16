@@ -8,15 +8,23 @@ const productManager = new ProductManager("src/products.json");
 
 router.get('/', async (req,res)=>{
     console.log("req body"+req.body);
-    const {limit} = req.query;
+    const {limit=10, page =1, sort, query} = req.query;
     //let prods = await productManager.getProducts();
-    let prods = await productModel.find();
-    if(limit){
-        let aux = prods.slice(0, limit)
-        res.json({data:aux, limit: limit }); 
-    }else{
-        res.json({data: prods, limit:false});
+    const options = {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        lean:true
+    };
+    if(sort) {
+        options.sort = sort; 
     }
+    const filter = query ? { $text: { $search: query } } : {}; 
+    
+    const {docs, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages, totalDocs }= await productModel.paginate(filter, options);
+    let prods = docs;
+    
+    res.send({status:"success", payload: prods,totalDocs:totalDocs, totalPages: totalPages, prevPage: prevPage, nextPage:nextPage, page:page, hasPrevPage:hasPrevPage, hasNextPage:hasNextPage});
+    
     
 })
 

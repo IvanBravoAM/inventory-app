@@ -47,6 +47,8 @@ socket.emit("connection", "new client connection");
 // }
 
 //events chat
+scrollToBottom();
+
 const messageForm = document.getElementById('messageForm');
 messageForm.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -66,7 +68,14 @@ socket.on("newMessage", chat => {
     const h3 = document.createElement("h3");
     li.textContent = message;
     h3.textContent = user;
+    li.classList = "bg-gray-200 max-w-m py-2 px-4 rounded-tl-lg rounded-br-lg";
+    h3.classList ="text-left mb-4 mt-2 mr-2 text-sm text-gray-500";
     console.log('asdas'+user+message);
     messageList.appendChild(h3);
     messageList.appendChild(li);
-});    
+    scrollToBottom();
+});
+
+function scrollToBottom() {
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}

@@ -1,0 +1,16 @@
+<body class="bg-gray-100">
+  <div class="container mx-auto py-10">
+    <!-- Detailed product information goes here -->
+    <h1 class="text-3xl font-semibold text-center mb-8">Product Details</h1>
+    <div class="bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-xl font-semibold mb-2">{{product.title}}</h2>
+      <p class="text-gray-600 mb-4">{{product.description}}</p>
+      <p class="text-gray-600 mb-4">{{product.category}}</p>
+      <p class="text-gray-400 mb-4">{{product.code}}</p>
+      <p class="text-lg text-green-600">${{product.price}}</p>
+      <!-- Display other properties here -->
+    </div>
+  </div>
+    <a href="/products/" class="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Back</a>
+    <a href="/products/{{this.code}}" class="mt-4 inline-block bg-sky-500 text-white px-4 py-2 rounded hover:bg-sky-600">Add to Cart</a>
+</body>
