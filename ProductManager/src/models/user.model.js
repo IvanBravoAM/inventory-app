@@ -8,7 +8,11 @@ const userSchema =  new mongoose.Schema({
     email:{
         type:String,
         unique:true
-    }
+    },
+    password: { 
+        type: String, 
+        required: true,
+        max: 100 }
 });
 
 export const userModel = mongoose.model(userCollection, userSchema);

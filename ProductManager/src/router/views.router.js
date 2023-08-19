@@ -2,16 +2,19 @@ import { Router } from "express";
 import { ProductManager } from "../ProductManager.js";
 import { productModel } from "../models/product.model.js";
 import { cartModel } from "../models/cart.model.js";
+import {utilInstance} from "../utils.js"
 
 const router = Router();
 const productManager = new ProductManager("src/products.json");
 
 router.get("/",async (req, res)=>{
     const products = await productManager.getProducts();
-    res.render("home",{products});
+    const userData = {
+        username: req.session.user};
+    res.render("home",{products, userData});
 });
 
-router.get("/products",async (req, res)=>{
+router.get("/products", utilInstance.sessionValidation, async (req, res)=>{
     let products =  await productModel.find().lean();
     console.log(products);
     res.render("products",{products});

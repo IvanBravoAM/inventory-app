@@ -15,14 +15,15 @@ userRouter.get("/",async (req, res)=>{
 });
 
 userRouter.post("/", async(req, res)=>{
-    let {first_name, last_name, email} = req.body;
+    let {first_name, last_name, email, password} = req.body;
 
-    if(!first_name || !last_name || !email) return res.send({status:'error', error:'incomplete values'});
+    if(!first_name || !last_name || !email || !password) return res.send({status:'error', error:'incomplete values'});
 
     let result = await userModel.create({
         first_name,
         last_name,
-        email
+        email,
+        password
     });
     res.send({status:'success', payload:result});
 })

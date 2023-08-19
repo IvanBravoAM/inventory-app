@@ -47,10 +47,12 @@ socket.emit("connection", "new client connection");
 // }
 
 //events chat
-scrollToBottom();
+//scrollToBottom();
 
 const messageForm = document.getElementById('messageForm');
-messageForm.addEventListener('submit', (event) => {
+if(messageForm)
+{
+    messageForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const user = userInput.value;
     const message = messageInput.value;
@@ -61,21 +63,59 @@ messageForm.addEventListener('submit', (event) => {
     }
     });
 
-socket.on("newMessage", chat => {
-    const {user,message} = chat;
-    const messageList = document.getElementById('messagesList');
-    const li = document.createElement("li");
-    const h3 = document.createElement("h3");
-    li.textContent = message;
-    h3.textContent = user;
-    li.classList = "bg-gray-200 max-w-m py-2 px-4 rounded-tl-lg rounded-br-lg";
-    h3.classList ="text-left mb-4 mt-2 mr-2 text-sm text-gray-500";
-    console.log('asdas'+user+message);
-    messageList.appendChild(h3);
-    messageList.appendChild(li);
-    scrollToBottom();
-});
+    socket.on("newMessage", chat => {
+        const {user,message} = chat;
+        const messageList = document.getElementById('messagesList');
+        const li = document.createElement("li");
+        const h3 = document.createElement("h3");
+        li.textContent = message;
+        h3.textContent = user;
+        li.classList = "bg-gray-200 max-w-m py-2 px-4 rounded-tl-lg rounded-br-lg";
+        h3.classList ="text-left mb-4 mt-2 mr-2 text-sm text-gray-500";
+        console.log('asdas'+user+message);
+        messageList.appendChild(h3);
+        messageList.appendChild(li);
+        //scrollToBottom();
+    });
 
-function scrollToBottom() {
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+    // function scrollToBottom() {
+    //     chatMessages.scrollTop = chatMessages.scrollHeight;
+    // }
 }
+
+///////////////////////////////////LOGIN///////////////////////////////
+///////////////////////////////////LOGIN///////////////////////////////
+async function postLogin(username, password) {
+    const response = await fetch("/login", {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+    }).then(response => response.json())
+    .then(data => {
+        if (data.respuesta === "ok") {
+            // Redirect the user to the desired route
+            window.location.href = "/view/products"; // Replace with your desired URL
+        }else{
+            const h3 = document.createElement("h3");
+            h3.textContent = 'Username or password incorrect.'
+            const logForm = document.getElementById('login-form');
+            logForm.append(h3);
+        }
+    })
+    .catch(error => {
+        console.error(error);
+    });
+    }
+const loginForm = document.getElementById("login-form");
+console.log('loginform '+loginForm);
+
+loginForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+    postLogin(username, password).then((datos) => console.log(datos));
+});
+///////////////////////////////////LOGIN///////////////////////////////
+///////////////////////////////////LOGIN///////////////////////////////

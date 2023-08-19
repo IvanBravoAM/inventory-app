@@ -12,20 +12,31 @@ import userRouter from './router/users.router.js';
 import messageRouter from './router/message.router.js';
 import mongoose from 'mongoose';
 import morganBody from 'morgan-body';
-
+import MongoStore from "connect-mongo";
+import session from "express-session";
+import * as dotenv from 'dotenv';
+import loginRouter from './router/login.router.js';
+import sessionRouter from './router/session.router.js';
 import { messageModel } from '../src/models/message.model.js';
-
+dotenv.config();
 const app = express();
 const httpServer = createServer(app);
-const PORT = 8080;
+const MONGO_URL = process.env.MONGO_URL;
+console.log('mongo urlk: ${process.env.MONGO_URL}');
+const PORT = /*process.env.PORT || 3000;*/ 8080;
+const MONGO_HARD = 'mongodb+srv://ivanbravo2201:bwOeW7Da8fBCqBE9@coderdb.dvyqzjc.mongodb.net/?retryWrites=true&w=majority';
 
-mongoose.connect('mongodb+srv://ivanbravo2201:bwOeW7Da8fBCqBE9@coderdb.dvyqzjc.mongodb.net/?retryWrites=true&w=majority');
+mongoose.connect(MONGO_HARD);
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
 //handlebars config
-app.engine("handlebars", engine());
+app.engine("handlebars", engine({
+    defaultLayout: 'main',
+    extname: 'handlebars',
+    partialsDir: './src/views/partials' // Path to your partials directory
+}));
 app.set("view engine", "handlebars");
 app.set("views", "src/views" );
 
@@ -34,11 +45,33 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+//SESSION
+app.use(
+    session({
+      store: MongoStore.create({
+        mongoUrl: MONGO_HARD,
+        mongoOptions: {
+          useNewUrlParser: true,
+          useUnifiedTopology: true,
+        },
+        ttl: 30,
+      }),
+      secret: "codersecret",
+      resave: false,
+      saveUninitialized: false,
+    })
+  );
+//SESSION
+
 app.use("/api/products", productRouter);
 
 app.use("/api/carts", cartRouter);
 
-app.use("/", viewsRouter);
+app.use("/view", viewsRouter);
+
+app.use("/", loginRouter);
+
+app.use("/login", sessionRouter);
 
 app.use("/real", realTimeRouter); 
 
