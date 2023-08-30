@@ -25,11 +25,14 @@ const MONGO_URL = process.env.MONGO_URL;
 console.log('mongo urlk: ${process.env.MONGO_URL}');
 const PORT = /*process.env.PORT || 3000;*/ 8080;
 const MONGO_HARD = 'mongodb+srv://ivanbravo2201:bwOeW7Da8fBCqBE9@coderdb.dvyqzjc.mongodb.net/?retryWrites=true&w=majority';
+import passport from 'passport';
+import initializePassport from './config/passport.config.js';
 
 mongoose.connect(MONGO_HARD);
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
+
 
 //handlebars config
 app.engine("handlebars", engine({
@@ -62,6 +65,10 @@ app.use(
     })
   );
 //SESSION
+
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/api/products", productRouter);
 

@@ -1,3 +1,5 @@
+import bcrypt from 'bcrypt'
+
 
 export class util{
     async sessionValidation(req, res, next){
@@ -7,6 +9,14 @@ export class util{
             res.redirect("/");
         }
     };
+
+    createHash(password){
+        return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+    }
+
+    isValidPassword(savedPass, password){
+        return bcrypt.compareSync(password, savedPass);
+    }
 }
 
 export const utilInstance = new util();

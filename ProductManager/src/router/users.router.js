@@ -1,5 +1,6 @@
 import {Router} from 'express';
 import { userModel } from '../models/user.model.js';
+import { utilInstance } from '../utils.js';
 
 const userRouter = Router();
 
@@ -23,7 +24,7 @@ userRouter.post("/", async(req, res)=>{
         first_name,
         last_name,
         email,
-        password
+        password: utilInstance.createHash(password)
     });
     res.send({status:'success', payload:result});
 })

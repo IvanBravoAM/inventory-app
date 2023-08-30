@@ -94,18 +94,12 @@ async function postLogin(username, password) {
         body: JSON.stringify({ username, password }),
     }).then(response => response.json())
     .then(data => {
-        if (data.respuesta === "ok") {
-            // Redirect the user to the desired route
-            window.location.href = "/view/products"; // Replace with your desired URL
-        }else{
-            const h3 = document.createElement("h3");
-            h3.textContent = 'Username or password incorrect.'
-            const logForm = document.getElementById('login-form');
-            logForm.append(h3);
+        if (data.status === "ok") {
+            window.location.href = "/view/products";
         }
     })
     .catch(error => {
-        console.error(error);
+        console.error(JSON.stringify(error));
     });
     }
 const loginForm = document.getElementById("login-form");
