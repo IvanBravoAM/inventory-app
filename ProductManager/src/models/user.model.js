@@ -12,7 +12,15 @@ const userSchema =  new mongoose.Schema({
     password: { 
         type: String, 
         required: true,
-        max: 100 }
+        max: 100
+    },
+    age:Number,
+    cart:mongoose.Schema.Types.ObjectId,
+    role:{
+        type:String,
+        default: 'user'
+    }
+
 });
 
 export const userModel = mongoose.model(userCollection, userSchema);

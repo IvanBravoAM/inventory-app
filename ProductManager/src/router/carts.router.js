@@ -25,7 +25,7 @@ router.get("/:cid", async (req, res)=>{
 router.post("/",async (req, res)=>{
     try{
         const cart = new cartModel({
-            products: [], // Empty array of products
+            products: [],
         });
         const response = await cartModel.create(cart);
         res.json({

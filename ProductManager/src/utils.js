@@ -15,6 +15,7 @@ export class util{
     }
 
     isValidPassword(savedPass, password){
+        console.log(bcrypt.compareSync(password, savedPass))
         return bcrypt.compareSync(password, savedPass);
     }
 }

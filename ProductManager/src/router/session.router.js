@@ -4,7 +4,7 @@ import { utilInstance } from "../utils.js";
 import passport from "passport";
 const router = Router();
 
-/*router.post("/", async (req, res) => {
+router.post("/", async (req, res) => {
     const { username, password } = req.body;
     const result = await userModel.find({
         email: username,
@@ -16,16 +16,17 @@ const router = Router();
         respuesta: "error",
     });
     else if(utilInstance.isValidPassword(result[0].password, password)){
+      console.log('oh hi mark');
         req.session.user = username;
         req.session.admin = true;
         res.status(200).json({
         respuesta: "ok",
         });
     }
-);*/
+  });
 
 router.post(
-    "/",
+    "/in",
     passport.authenticate("login", {
       failureRedirect: "/login/failLogin",
     }),
@@ -60,6 +61,14 @@ router.post(
       req.session.user = req.user;
       req.session.admin = true;
       res.redirect("/");
+    }
+  );
+
+  router.get(
+    "/current",
+    async (req, res) => {
+      const user = req.session.user;
+      res.json(user);
     }
   );
 

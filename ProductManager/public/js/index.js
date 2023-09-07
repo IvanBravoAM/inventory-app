@@ -94,7 +94,7 @@ async function postLogin(username, password) {
         body: JSON.stringify({ username, password }),
     }).then(response => response.json())
     .then(data => {
-        if (data.status === "ok") {
+        if (data.respuesta === "ok") {
             window.location.href = "/view/products";
         }
     })
@@ -113,3 +113,5 @@ loginForm.addEventListener("submit", function (event) {
 });
 ///////////////////////////////////LOGIN///////////////////////////////
 ///////////////////////////////////LOGIN///////////////////////////////
+const cart = document.getElementById("addToCart");
+console.log(cart);
