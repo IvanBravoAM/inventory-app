@@ -1,0 +1,25 @@
+<div class="bg-white rounded-lg p-4 shadow">
+  <h1 class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium">Chat real</h1>
+  <div class=" h-72 border p-4 overflow-auto flex">
+    <ul class="divide-y divide-gray-100" id="messagesList">
+        {{#each messages}}
+        <li class="bg-gray-200 max-w-m py-2 px-4 rounded-tl-lg rounded-br-lg">
+            {{this.message}}
+        </li>
+        <h3 class="text-left mb-4 mt-2 mr-2 text-sm text-gray-500">{{this.user}}</h3>
+        {{/each}}
+    </ul>
+  </div>
+  <form class="bg-white rounded-lg p-4 shadow" id="messageForm">
+    <div class="mb-2">
+      <label class="block text-gray-700 font-bold mb-1" for="user">User:</label>
+      <input class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-400" type="text" id="userInput" name="userInput" placeholder="Your username">
+    </div>
+    <div class="mb-2">
+      <label class="block text-gray-700 font-bold mb-1" for="message">Message:</label>
+      <textarea class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-400" id="messageInput" name="messageInput" rows="3" placeholder="Type your message"></textarea>
+    </div>
+    <button class="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600" type="submit">Send</button>
+  </form>
+
+</div>

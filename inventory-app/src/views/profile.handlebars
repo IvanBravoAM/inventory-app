@@ -1,0 +1,6 @@
+<h1>Welcome, {{userData.username}}!</h1>
+{{#if userData.isAdmin}}
+    <p>You have admin privileges.</p>
+{{else}}
+    <p>You have regular user privileges.</p>
+{{/if}}
