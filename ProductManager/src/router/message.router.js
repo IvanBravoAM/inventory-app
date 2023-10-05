@@ -6,8 +6,9 @@ const messageRouter = Router();
 messageRouter.get("/",async (req, res)=>{
     try{
         let messages = await messageModel.find().lean();
-        console.log(messages);
-        res.render("chat",{messages});
+        const admin = req.session.admin
+        const user = req.session.user
+        res.render("chat",{messages, admin, user});
     }
     catch(error){
         console.log('cannot get messages');

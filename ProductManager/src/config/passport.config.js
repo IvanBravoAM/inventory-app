@@ -3,12 +3,7 @@ import local from "passport-local";
 import {userModel} from "../models/user.model.js";
 import { utilInstance } from "../utils.js";
 import GitHubStrategy from "passport-github2";
-import * as dotenv from "dotenv";
-dotenv.config();
-
-const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
-const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
-const GITHUB_CALLBACK_URL = process.env.GITHUB_CALLBACK_URL;
+import config from "../config/config.js";
 
 const LocalStrategy = local.Strategy;
 
@@ -17,9 +12,9 @@ const initializePassport = () => {
         "github",
         new GitHubStrategy(
             {
-            clientID: GITHUB_CLIENT_ID,
-            clientSecret: GITHUB_CLIENT_SECRET,
-            callbackURL: GITHUB_CALLBACK_URL,
+            clientID: config.GITHUB_CLIENT_ID,
+            clientSecret: config.GITHUB_CLIENT_SECRET,
+            callbackURL: config.GITHUB_CALLBACK_URL,
             },
             async (accessToken, refreshToken, profile, done) => {
             try {

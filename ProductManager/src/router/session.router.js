@@ -2,6 +2,7 @@ import { Router } from "express";
 import { userModel } from '../models/user.model.js';
 import { utilInstance } from "../utils.js";
 import passport from "passport";
+import UserDTO from "../DTO/user.dto.js";
 const router = Router();
 
 router.post("/", async (req, res) => {
@@ -9,8 +10,7 @@ router.post("/", async (req, res) => {
     const result = await userModel.find({
         email: username,
     });
-    console.log("result "+result[0].password);
-    console.log("user pass"+ username + password);
+    console.log("user "+ result[0] );
     if(result.length === 0)
         return res.status(401).json({
         respuesta: "error",
@@ -18,7 +18,7 @@ router.post("/", async (req, res) => {
     else if(utilInstance.isValidPassword(result[0].password, password)){
       console.log('oh hi mark');
         req.session.user = username;
-        req.session.admin = true;
+        req.session.admin = result[0].role == 'admin';
         res.status(200).json({
         respuesta: "ok",
         });
@@ -68,7 +68,15 @@ router.post(
     "/current",
     async (req, res) => {
       const user = req.session.user;
-      res.json(user);
+      if (!req.session.user) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+      const result = await userModel.find({
+        email: user,
+      });
+      const userdto =  new UserDTO(result[0]);
+      console.log(userdto)
+      res.json(userdto);
     }
   );
 

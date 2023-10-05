@@ -9,26 +9,25 @@ import  {Server} from "socket.io"
 import { ProductManager } from "./ProductManager.js";
 const productManager = new ProductManager("src/products.json");
 import userRouter from './router/users.router.js';
+import mockRouter from './router/mock.router.js';
 import messageRouter from './router/message.router.js';
 import mongoose from 'mongoose';
 import morganBody from 'morgan-body';
 import MongoStore from "connect-mongo";
 import session from "express-session";
-import * as dotenv from 'dotenv';
+
 import loginRouter from './router/login.router.js';
 import sessionRouter from './router/session.router.js';
 import { messageModel } from '../src/models/message.model.js';
-dotenv.config();
+
 const app = express();
 const httpServer = createServer(app);
-const MONGO_URL = process.env.MONGO_URL;
-console.log('mongo urlk: ${process.env.MONGO_URL}');
-const PORT = /*process.env.PORT || 3000;*/ 8080;
-const MONGO_HARD = 'mongodb+srv://ivanbravo2201:bwOeW7Da8fBCqBE9@coderdb.dvyqzjc.mongodb.net/?retryWrites=true&w=majority';
 import passport from 'passport';
 import initializePassport from './config/passport.config.js';
+import config from "./config/config.js";
+import errorHandler from "./middleware/errors/index.js";
 
-mongoose.connect(MONGO_HARD);
+mongoose.connect(config.MONGO_URL);
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -52,12 +51,12 @@ app.use(express.json());
 app.use(
     session({
       store: MongoStore.create({
-        mongoUrl: MONGO_HARD,
+        mongoUrl: config.MONGO_URL,
         mongoOptions: {
           useNewUrlParser: true,
           useUnifiedTopology: true,
         },
-        ttl: 30,
+        ttl: 300,
       }),
       secret: "codersecret",
       resave: false,
@@ -65,7 +64,6 @@ app.use(
     })
   );
 //SESSION
-
 initializePassport();
 app.use(passport.initialize());
 app.use(passport.session());
@@ -86,14 +84,9 @@ app.use("/api/users", userRouter);
 
 app.use("/chat", messageRouter);
 
-// app.listen(PORT ,() =>{
-//     console.log('SERVER LISTENING ON PORT 8080');
-// }); 
+app.use("/mock", mockRouter);
 
-//io config
-
-
-
+app.use(errorHandler);
 
 
 const socketIO = new Server(httpServer);
@@ -124,6 +117,6 @@ socketIO.on('connection', (socket)=>{
 
 morganBody(app);
 // Iniciar el servidor HTTP
-httpServer.listen(PORT, () => {
-    console.log(`Servidor en ejecución en http://localhost:${PORT}`);
+httpServer.listen(config.PORT, () => {
+    console.log(`Servidor en ejecución en http://localhost:${config.PORT}`);
 });
