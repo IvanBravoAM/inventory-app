@@ -3,6 +3,7 @@ import { ProductManager } from "../ProductManager.js";
 import { productModel } from "../models/product.model.js";
 import { cartModel } from "../models/cart.model.js";
 import {utilInstance} from "../utils.js"
+import CartController from "../controllers/cart.controller.js";
 
 const router = Router();
 const productManager = new ProductManager("src/products.json");
@@ -27,13 +28,12 @@ router.get("/products/:pcode",async (req, res)=>{
     res.render("productDetail",{product});
 });
 
-router.get("/carts/:cid",async (req, res)=>{
-    const {cid} = req.params;
-    let cart =  await cartModel.findById(cid).populate('products.pid', 'title description stock code price thumbnails').lean();
-    //const totalPrice = products.reduce((sum, product) => sum + (product.price*product.quantity), 0);
-    console.log(cart);
-    res.render("cartDetail",{cart});
+router.get("/carts/:cid", function(req, res){
+    console.log('estoy en el router')
+    CartController.renderCart
+    console.log('pase el controller?')
 });
+
 
 
 
