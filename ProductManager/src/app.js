@@ -26,6 +26,8 @@ import passport from 'passport';
 import initializePassport from './config/passport.config.js';
 import config from "./config/config.js";
 import errorHandler from "./middleware/errors/index.js";
+import { addLogger, devLogger, prodLogger } from "./utils/logger.js";
+import logRouter from './router/log.router.js';
 
 mongoose.connect(config.MONGO_URL);
 
@@ -46,6 +48,7 @@ app.use(express.static("public"));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(addLogger);
 
 //SESSION
 app.use(
@@ -86,13 +89,15 @@ app.use("/chat", messageRouter);
 
 app.use("/mock", mockRouter);
 
+app.use("/loggerTest", logRouter);
+
 app.use(errorHandler);
 
 
 const socketIO = new Server(httpServer);
 
 socketIO.on('connection', (socket)=>{
-    console.log('new user connected');
+    devLogger.debug('new user connected');
 
     socket.on("addProduct", async (newProduct) => {
         const response = await productManager.addProduct(newProduct);
@@ -101,7 +106,7 @@ socketIO.on('connection', (socket)=>{
 
     socket.on("deleteProduct", async (productID) => {
         const response = await productManager.deleteProductById(productID);
-        console.log("product deleted");
+        devLogger.debug("product deleted");
     });
 
     socket.on("addMessage", async (chat) => {
@@ -110,7 +115,7 @@ socketIO.on('connection', (socket)=>{
             user,
             message
         });
-        console.log('new message '+ result);
+        devLogger.debug('new message '+ result);
         socketIO.emit('newMessage', chat);
     });
 });
@@ -118,5 +123,5 @@ socketIO.on('connection', (socket)=>{
 morganBody(app);
 // Iniciar el servidor HTTP
 httpServer.listen(config.PORT, () => {
-    console.log(`Servidor en ejecución en http://localhost:${config.PORT}`);
+    devLogger.debug(`Servidor en ejecución en http://localhost:${config.PORT}`);
 });

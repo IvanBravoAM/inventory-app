@@ -31,6 +31,8 @@ export class util{
         console.log(bcrypt.compareSync(password, savedPass))
         return bcrypt.compareSync(password, savedPass);
     }
+
+    
 }
 
 export const utilInstance = new util();
