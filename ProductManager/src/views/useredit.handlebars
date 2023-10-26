@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.7/dist/handlebars.min.js"></script>
+    <title>User Management</title>
+</head>
+<body>
+    <div id="app"></div>
+
+    <div class="bg-gray-100 p-4 rounded-md shadow-md">
+        <h2 class="text-2xl font-semibold">{{user.first_name}} {{user.last_name}}</h2>
+        <p class="text-gray-600">{{user.email}}</p>
+        <p class="text-gray-600">{{user.id}}</p>
+        <p class="mt-2">Current Role: {{user.role}}</p>
+        <form class="mt-2" id="roleChangeForm">
+                <label>
+                    <input type="radio" name="role" value="user" >
+                    User
+                </label>
+                <label>
+                    <input type="radio" name="role" value="premium" >
+                    Premium
+                </label>
+                <button type="submit" class="p-2 bg-blue-500 text-white rounded hover:bg-blue-700">Save</button>
+        </form>
+    </div>
+
+<script src="../../public/js/useredit.js"></script>
+</body>
+</html>

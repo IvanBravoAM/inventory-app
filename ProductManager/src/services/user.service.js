@@ -5,7 +5,7 @@ const userRepository = new UserRepository();
 export class UserService{
     async getUser(uid){
         try{
-            const user = await userRepository.getUserPopulate(uid);
+            const user = await userRepository.getUser(uid);
             return new UserDTO(user);
         }
         catch(error){

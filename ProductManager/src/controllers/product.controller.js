@@ -29,8 +29,9 @@ const productService = new ProductService();
 
     export const createProduct = async (req, res) =>{
         try{
-            let {title, description, price, thumbnails, code, status, stock, category} = req.body;
+            let {title, description, price, thumbnails, code, status, stock, category, owner} = req.body;
             status = !status || typeof status !== "boolean" ? true : status;
+            const user = req.user;
             if(!title || !description || !code || !price || !stock || !category){
                 CustomError.createError(
                     {name:"Create Product Error",
@@ -39,7 +40,11 @@ const productService = new ProductService();
                     code: EErrors.INVALID_TYPES_ERROR
                 });
             }
-            let product = {title, description, code, price, stock, category, status, thumbnails}
+            let product = {title, description, code, price, stock, category, status, thumbnails, owner}
+            if (user._id.toString() !== product.owner.toString() && !req.user.isAdmin) {
+                // El usuario no es el propietario del producto ni un administrador
+                return res.status(403).send('No tienes permiso para realizar esta acción.');
+            }
             let response = await productModel.create(product);
             res.json({
                 message: "product succesfully added",
@@ -73,6 +78,11 @@ const productService = new ProductService();
     export const deleteProduct = async (req, res) => {
         try{
             const {pid} = req.params;
+            const product = await productService.getProduct(pid);
+            if (req.user._id.toString() !== product.owner.toString() && !req.user.isAdmin) {
+                // El usuario no es el propietario del producto ni un administrador
+                return res.status(403).send('No tienes permiso para realizar esta acción.');
+            }
             let response = await productService.deleteProduct(pid);
             res.json({message:'delete success', data:response})
         }catch(error){

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar Contraseña</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 h-screen flex flex-col justify-center items-center">
+    <div class="bg-white p-8 rounded shadow-md w-96">
+        <h2 class="text-2xl font-semibold mb-4">Recuperar Contraseña</h2>
+        <form action="/login/forgot-password" method="post" id="forgotPasswordForm">
+            <div class="mb-4">
+                <label for="email" class="block text-sm font-medium text-gray-600">Correo Electrónico</label>
+                <input type="email" id="email" name="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+            </div>
+            <button type="submit" class="w-full bg-indigo-600 text-white font-semibold p-2 rounded hover:bg-indigo-700">Enviar Correo de Recuperación</button>
+        </form>
+    </div>
+</body>
+<script src="../../public/js/pass.js"></script>
+</html>

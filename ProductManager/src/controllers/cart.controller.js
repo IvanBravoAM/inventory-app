@@ -48,6 +48,10 @@ const ticketService = new TicketService();
     export const addProduct= async(req, res) =>{
         console.log('oh hi mark')
         const {cid, pid} = req.params;
+        if(req.user._id.toString() !== product.owner.toString() && !req.user.isAdmin){
+            // El usuario no es el propietario del producto ni un administrador
+            return res.status(403).send('No tienes permiso para realizar esta acción.');
+        }
         const cart = await cartService.addProduct(cid, pid);
         if(cart){    
             res.json({msg:'success', payload:cart});

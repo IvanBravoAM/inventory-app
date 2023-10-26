@@ -14,6 +14,10 @@ const productSchema =  new mongoose.Schema({
     code:{
         type:String,
         unique:true
+    },
+    owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'usuarios'
     }
 });
 productSchema.plugin(mongoosePaginate);

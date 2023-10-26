@@ -4,6 +4,7 @@ import { productModel } from "../models/product.model.js";
 import { cartModel } from "../models/cart.model.js";
 import {utilInstance} from "../utils.js"
 import CartController from "../controllers/cart.controller.js";
+import { userModel } from "../models/user.model.js";
 
 const router = Router();
 const productManager = new ProductManager("src/products.json");
@@ -17,8 +18,14 @@ router.get("/",async (req, res)=>{
 
 router.get("/products", utilInstance.sessionValidation, async (req, res)=>{
     let products =  await productModel.find().lean();
-    console.log(products);
-    res.render("products",{products});
+    const username= req.session.user;
+    const user = await userModel.findOne({ email:username }).lean();
+    console.log('no me la kevin constner',user);
+    res.render("products",{user , products});
+});
+
+router.get("/addproduct", utilInstance.sessionValidation, async (req, res)=>{
+    res.render("addproduct");
 });
 
 router.get("/products/:pcode",async (req, res)=>{

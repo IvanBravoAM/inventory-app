@@ -1,9 +1,9 @@
 <nav class="bg-blue-500 p-4">
   <div class="container mx-auto flex justify-between items-center">
-    <a href="/" class="text-white text-xl font-semibold">Welcome {{userData.username}}</a>
+    <a href="/" class="text-white text-xl font-semibold">Welcome {{user.first_name}}</a>
     <ul class="flex space-x-4">
-      <li><a href="/profile" class="text-white">Profile</a></li>
-      <li><a href="/products" class="text-white">Products</a></li>
+      <li><a href="/api/users/premium/{{user._id}}" class="text-white">Profile</a></li>
+      <li><a href="/view/addproduct" class="text-white">Add Products</a></li>
       <li><a href="/cart" class="text-white">Cart</a></li>
       <li><a href="/chat" class="text-white">Chat</a></li>
       <li><a href="/logout" class="text-white">Logout</a></li>
