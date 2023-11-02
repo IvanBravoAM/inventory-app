@@ -28,6 +28,8 @@ import config from "./config/config.js";
 import errorHandler from "./middleware/errors/index.js";
 import { addLogger, devLogger, prodLogger } from "./utils/logger.js";
 import logRouter from './router/log.router.js';
+import swaggerJsdoc from "swagger-jsdoc";
+import swaggerUiExpress from "swagger-ui-express";
 
 mongoose.connect(config.MONGO_URL);
 
@@ -45,6 +47,24 @@ app.set("view engine", "handlebars");
 app.set("views", "src/views" );
 
 app.use(express.static('public'));
+//SwaggerOptions
+const SwaggerOptions = {
+  definition: {
+    openapi: "3.0.1",
+    info: {
+      title: "Inventory App Docs",
+      description: "Documentacion sobre las rutas de la app usando Swagger PD: Lei mal pense que iban las rutas de session tambien",
+    },
+  },
+  apis: [`./src/docs/**/*.yaml`],
+};
+
+//conectamos Swagger
+const specs = swaggerJsdoc(SwaggerOptions);
+
+//Rutas express
+app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
+
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

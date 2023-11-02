@@ -1,0 +1,95 @@
+paths:
+  /products:
+    get:
+      summary: Get All Products
+      description: Get a list of all products
+      tags:
+        - Products
+      responses:
+        '200':
+          description: Successful response
+    post:
+      summary: Create Product
+      description: Create a new product
+      tags:
+        - Products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Product created successfully
+  /products/{pid}:
+    get:
+      summary: Get Product by ID
+      description: Get a product by ID
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+    put:
+      summary: Update Product
+      description: Update an existing product
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Successful response
+    delete:
+      summary: Delete Product
+      description: Delete a product by ID
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Product deleted successfully
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        thumbnails:
+          type: string
+        stock:
+          type: integer
+        status:
+          type: boolean
+        category:
+          type: string
+        code:
+          type: string
+        owner:
+          type: string
+          format: uuid

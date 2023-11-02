@@ -1,0 +1,123 @@
+paths:
+  /login:
+    post:
+      summary: User Login
+      description: Log in a user
+      tags:
+        - Session
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: User logged in successfully
+        '401':
+          description: Unauthorized access
+
+  /login/in:
+    post:
+      summary: User Login (Authenticated)
+      description: Log in an authenticated user
+      tags:
+        - Session
+      responses:
+        '200':
+          description: User logged in successfully
+        '401':
+          description: Unauthorized access
+
+  /login/failLogin:
+    get:
+      summary: Failed Login
+      description: Handle failed login strategy
+      tags:
+        - Session
+      responses:
+        '200':
+          description: Handle failed login strategy
+
+  /login/githubcallback:
+    get:
+      summary: GitHub Callback
+      description: GitHub authentication callback
+      tags:
+        - Session
+      responses:
+        '200':
+          description: User authenticated via GitHub
+
+  /login/current:
+    get:
+      summary: Get Current User
+      description: Get information about the current user
+      tags:
+        - Session
+      responses:
+        '200':
+          description: User information retrieved successfully
+        '401':
+          description: Unauthorized access
+
+  /login/forgot-password:
+    get:
+      summary: Forgot Password
+      description: Show forgot password form
+      tags:
+        - Session
+
+    post:
+      summary: Forgot Password (Request)
+      description: Request a password reset
+      tags:
+        - Session
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+      responses:
+        '200':
+          description: Password reset email sent successfully
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+
+  /login/reset/{token}:
+    get:
+      summary: Reset Password
+      description: Show reset password form
+      tags:
+        - Session
+
+    post:
+      summary: Reset Password (Submit)
+      description: Submit a new password for reset
+      tags:
+        - Session
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                newPassword:
+                  type: string
+                user:
+                  type: string
+      responses:
+        '200':
+          description: Password reset successful
+        '500':
+          description: Internal server error
+

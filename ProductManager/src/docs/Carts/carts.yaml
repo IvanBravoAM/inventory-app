@@ -1,0 +1,160 @@
+paths:
+  /cart/{cid}:
+    get:
+      summary: Get Cart
+      description: Get cart by ID
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+          description: Cart ID  
+      responses:
+        '200':
+          description: Successful response
+  /cart:
+    post:
+      summary: Create Cart
+      description: Create a new cart
+      tags:
+        - Carts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Cart created successfully
+    put:
+      summary: Update Cart
+      description: Update an existing cart
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Successful response
+    delete:
+      summary: Delete Cart
+      description: Delete a cart by ID
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Cart deleted successfully
+  /cart/{cid}/products/{pid}:
+    post:
+      summary: Add Product to Cart
+      description: Add a product to a cart
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Product added to cart successfully
+    put:
+      summary: Update Product in Cart
+      description: Update a product in a cart
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Successful response
+    delete:
+      summary: Delete Product from Cart
+      description: Delete a product from a cart
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Product deleted from cart successfully
+  /cart/{cid}/purchase:
+    post:
+      summary: Create Ticket
+      description: Create a ticket for the cart
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Ticket created successfully
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              pid:
+                type: string
+                format: uuid
+              quantity:
+                type: integer
