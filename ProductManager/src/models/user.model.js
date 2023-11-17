@@ -21,7 +21,14 @@ const userSchema =  new mongoose.Schema({
         default: 'user'
     },
     resetPasswordToken: String, // Campo para almacenar el token de restablecimiento
-    resetPasswordExpires: Date
+    resetPasswordExpires: Date,
+    documents: [
+        {
+            name: String,
+            reference: String,
+        },
+    ],
+    last_connection: Date,
 
 });
 
