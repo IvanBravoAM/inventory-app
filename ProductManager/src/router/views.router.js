@@ -3,8 +3,9 @@ import { ProductManager } from "../ProductManager.js";
 import { productModel } from "../models/product.model.js";
 import { cartModel } from "../models/cart.model.js";
 import {utilInstance} from "../utils.js"
-import CartController from "../controllers/cart.controller.js";
+import cartController from "../controllers/cart.controller.js";
 import { userModel } from "../models/user.model.js";
+import ticketController from "../controllers/ticket.controller.js";
 
 const router = Router();
 const productManager = new ProductManager("src/products.json");
@@ -13,7 +14,7 @@ router.get("/",async (req, res)=>{
     const products = await productManager.getProducts();
     const userData = {
         username: req.session.user};
-    res.render("home",{products, userData});
+    res.render("home",{products: products, user: userData});
 });
 
 router.get("/products", utilInstance.sessionValidation, async (req, res)=>{
@@ -21,12 +22,19 @@ router.get("/products", utilInstance.sessionValidation, async (req, res)=>{
     const username= req.session.user;
     const user = await userModel.findOne({ email:username }).lean();
     console.log('no me la kevin constner',user);
-    res.render("products",{user , products});
+    res.render("products",{products: products, user: user});
 });
 
 router.get("/addproduct", utilInstance.sessionValidation, async (req, res)=>{
     res.render("addproduct");
 });
+
+router.get("/checkout/:code", utilInstance.sessionValidation, async (req, res)=>{
+    const ticket = await ticketController.getTicket(req, res);
+    res.render("checkout", {ticket});
+});
+
+
 
 router.get("/products/:pcode",async (req, res)=>{
     const {pcode} = req.params;
@@ -37,7 +45,7 @@ router.get("/products/:pcode",async (req, res)=>{
 
 router.get("/carts/:cid", function(req, res){
     console.log('estoy en el router')
-    CartController.renderCart
+    const result = cartController.renderCart(req, res);
     console.log('pase el controller?')
 });
 

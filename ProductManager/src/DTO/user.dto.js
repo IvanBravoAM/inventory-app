@@ -7,5 +7,6 @@ export default class UserDTO {
         this.last_name= user.last_name || 'none';
         this.email = user.email || 'none';
         this.role = user.role || 'user';
+        this.last_connection = user.last_connection || 'none';
     }
 }

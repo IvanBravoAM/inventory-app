@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ 
+</head>
+<body class="bg-gray-200 h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-md shadow-md w-full">
+        <h2 class="text-2xl font-semibold mb-4">Todos los Productos</h2>
+
+
+        <table class="w-full mb-4">
+            <thead>
+                <tr>
+                    <th class="py-2 px-4 bg-gray-300">ID del Producto</th>
+                    <th class="py-2 px-4 bg-gray-300">Título</th>
+                    <th class="py-2 px-4 bg-gray-300">Descripción</th>
+                    <th class="py-2 px-4 bg-gray-300">Precio</th>
+                    <th class="py-2 px-4 bg-gray-300">Stock</th>
+                    <th class="py-2 px-4 bg-gray-300">Estado</th>
+                    <th class="py-2 px-4 bg-gray-300">Categoría</th>
+                    <th class="py-2 px-4 bg-gray-300">Código</th>
+                    <th class="py-2 px-4 bg-gray-300">Dueño</th>
+                    <th class="py-2 px-4 bg-gray-300">Acciones</th>
+                    <th class="py-2 px-4 bg-gray-300">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each products}}
+                    <tr>
+                        <td class="py-2 px-4">{{this._id}}</td>
+                        <td class="py-2 px-4">{{this.title}}</td>
+                        <td class="py-2 px-4">{{this.description}}</td>
+                        <td class="py-2 px-4">{{this.price}}</td>
+                        <td class="py-2 px-4">{{this.stock}}</td>
+                        <td class="py-2 px-4">{{this.status}}</td>
+                        <td class="py-2 px-4">{{this.category}}</td>
+                        <td class="py-2 px-4">{{this.code}}</td>
+                        <td class="py-2 px-4">{{this.owner}}</td>
+                        <td class="py-2 px-4">
+                            <a href="/view/products/{{this.code}}" class="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-700">Detalles</a>
+                        </td>
+                        <form id="delete-product-form">
+                            <td class="py-2 px-4">
+                                <button type="submit" class="delete-product-btn" data-product-id="{{this._id}}">Eliminar Producto</button>
+                            </td>
+                        </form>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
+        <a href="/api/users/admin-panel" class="block p-2 bg-blue-200 rounded-md hover:bg-blue-400">Volver al Panel de Administrador</a>
+    </div>
+
+    <script src="../../js/productlist.js"></script>
+</body>
+</html>

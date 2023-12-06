@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Listado de Usuarios</title>
+  <link rel="stylesheet" href="/styles.css"> <!-- Agrega el archivo CSS de Tailwind -->
+</head>
+<body class="bg-gray-100 p-4">
+  <h1 class="text-2xl font-bold mb-4">Listado de Usuarios</h1>
+  <div class="bg-white p-8 rounded-md shadow-md w-full">
+        <h2 class="text-2xl font-semibold mb-4">All Users</h2>
+        <!-- User Table -->
+        <table class="w-full mb-4">
+            <thead>
+                <tr>
+                    <th class="py-2 px-4 bg-gray-300">User ID</th>
+                    <th class="py-2 px-4 bg-gray-300">First Name</th>
+                    <th class="py-2 px-4 bg-gray-300">Last Name</th>
+                    <th class="py-2 px-4 bg-gray-300">Email</th>
+                    <th class="py-2 px-4 bg-gray-300">Role</th>
+                    <th class="py-2 px-4 bg-gray-300">Last Connection</th>
+                    <th class="py-2 px-4 bg-gray-300">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each users}}
+                    <tr>
+                        <td class="py-2 px-4">{{this.id}}</td>
+                        <td class="py-2 px-4">{{this.first_name}}</td>
+                        <td class="py-2 px-4">{{this.last_name}}</td>
+                        <td class="py-2 px-4">{{this.email}}</td>
+                        <td class="py-2 px-4">{{this.role}}</td>
+                        <td class="py-2 px-4">{{this.last_connection}}</td>
+                        <td class="py-2 px-4">
+                            <a href="/api/users/{{this.id}}" class="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-700">Details</a>
+                        </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        <!-- Back Button -->
+        <a href="/api/users/admin-panel" class="block p-2 bg-red-500 text-white rounded-md hover:bg-red-700">Back to Admin Panel</a>
+    </div>
+</body>
+</html>

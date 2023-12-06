@@ -11,6 +11,7 @@ const productManager = new ProductManager("src/products.json");
 import userRouter from './router/users.router.js';
 import mockRouter from './router/mock.router.js';
 import messageRouter from './router/message.router.js';
+import ticketRouter from './router/ticket.router.js';
 import mongoose from 'mongoose';
 import morganBody from 'morgan-body';
 import MongoStore from "connect-mongo";
@@ -46,7 +47,9 @@ app.engine("handlebars", engine({
 app.set("view engine", "handlebars");
 app.set("views", "src/views" );
 
-app.use(express.static('public'));
+const publicPath = "./public";
+//app.use('/public', express.static(publicPath));
+app.use(express.static(publicPath));
 //SwaggerOptions
 const SwaggerOptions = {
   definition: {
@@ -68,7 +71,7 @@ app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(addLogger);
+//app.use(addLogger);
 
 //SESSION
 app.use(
@@ -94,6 +97,8 @@ app.use(passport.session());
 app.use("/api/products", productRouter);
 
 app.use("/api/carts", cartRouter);
+
+app.use("/api/tickets", ticketRouter);
 
 app.use("/view", viewsRouter);
 

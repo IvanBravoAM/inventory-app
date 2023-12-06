@@ -24,15 +24,12 @@ export class CartRepository{
     }
 
     async getCartPopulate(cid){
-        return await cartModel.findById(cid).populate('products.pid', 'title description stock code price');
+        return await cartModel.findById(cid).populate('products.pid', 'title description stock code price').lean();
     }
 
-    async deleteCartProducts(cid, productIdsToDelete){
-        return await cartModel.findByIdAndUpdate(
-            cid,
-            { $pull: { products: { _id: { $in: productIdsToDelete } } } },
-            { new: true }
-        );
+    async deleteCartProducts(cart){
+        cart.products = [];
+        await cart.save();
     }
     
 }

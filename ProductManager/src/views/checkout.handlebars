@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Success Checkout</title>
+</head>
+<body class="bg-gray-100 h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-md shadow-md w-96">
+        <h2 class="text-2xl font-semibold mb-4">Checkout Successful</h2>
+        
+        <div class="mb-4">
+            <p class="text-gray-600">Purchaser: {{ticket.purchaser}}</p>
+            <p class="text-gray-600">Purchase Datetime: {{ticket.purchase_datetime}}</p>
+        </div>
+
+        <div class="mb-4">
+            <h3 class="text-lg font-semibold mb-2">Products:</h3>
+            <ul class="list-disc pl-4">
+                {{#each ticket.products}}
+                    <li>{{this.name}} - Quantity: {{this.quantity}}</li>
+                {{/each}}
+            </ul>
+        </div>
+
+        <p class="text-lg text-green-600 mb-4">Amount: ${{ticket.amount}}</p>
+        <p class="text-gray-600">Code: {{ticket.code}}</p>
+
+        <a href="/view/products" class="block p-2 bg-blue-500 text-white rounded-md mt-4 hover:bg-blue-700">Continue Shopping</a>
+    </div>
+</body>
+</html>

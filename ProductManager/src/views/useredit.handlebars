@@ -7,29 +7,37 @@
     <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.7/dist/handlebars.min.js"></script>
     <title>User Management</title>
 </head>
-<body>
-    <div id="app"></div>
+<body class="bg-gray-200 h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-md shadow-md w-96">
+        <h2 class="text-2xl font-semibold mb-2">{{userData.user.first_name}} {{userData.user.last_name}}</h2>
+        <p class="text-gray-600 mb-4">{{userData.user.email}}</p>
+        <p class="text-gray-600 mb-4">User ID: </p>
+        <h3 id="user-id" class="text-gray-800 font-semibold mb-2">{{userData.user.id}}</h3>
+        <p class="mb-4">Current Role: {{userData.user.role}}</p>
+        <a href="/api/users/upload" class="block p-2 bg-blue-500 text-white rounded-md mb-4 hover:bg-blue-700">Upload Profile Picture</a>
 
-    <div class="bg-gray-100 p-4 rounded-md shadow-md">
-        <h2 class="text-2xl font-semibold">{{user.first_name}} {{user.last_name}}</h2>
-        <p class="text-gray-600">{{user.email}}</p>
-        <p class="text-gray-600">{{user.id}}</p>
-        <p class="mt-2">Current Role: {{user.role}}</p>
-        <a href="/api/users/upload" class="p-2 bg-blue-500 text-white">Upload profile picture</a>
-        <form class="mt-2" id="roleChangeForm">
-                <label>
-                    <input type="radio" name="role" value="user" >
-                    User
-                </label>
-                <label>
-                    <input type="radio" name="role" value="premium" >
-                    Premium
-                </label>
-                <button type="submit" class="p-2 bg-blue-500 text-white rounded hover:bg-blue-700">Save</button>
+        <form id="roleChangeForm">
+            <input type="hidden" id="user-id-input" name="user-id" value="{{userData.user.id}}">
+            <label class="flex items-center mb-2">
+                <input type="radio" name="role" value="user" class="mr-2">
+                User
+            </label>
+            <label class="flex items-center mb-2">
+                <input type="radio" name="role" value="premium" class="mr-2">
+                Premium
+            </label>
+            <button type="submit" class="w-full p-2 bg-blue-500 text-white rounded-md hover:bg-blue-700">Save</button>
+        </form>
+        <form id="userDeleteForm">
+            <input type="hidden" id="user-id-del" name="user-id-del" value="{{userData.user.id}}">
+            <button type="submit" class="w-full p-2 bg-red-500 text-white rounded-md hover:bg-red-700">Delete</button>
         </form>
         
+        {{#if userData.isAdmin }}
+            <a href="/api/users/admin-panel" class="block p-2 bg-green-500 text-white rounded-md mt-4 hover:bg-red-200">Admin Panel</a>
+        {{/if}}
     </div>
 
-<script src="../../public/js/useredit.js"></script>
+    <script src="../../js/useredit.js"></script>
 </body>
 </html>

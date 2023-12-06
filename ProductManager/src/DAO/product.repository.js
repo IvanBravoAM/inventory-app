@@ -7,10 +7,14 @@ export class ProductRepository{
         return productModel.findById(pid);
     }
 
+    async getProducts(){
+        return productModel.find().lean();
+    }
+
     async getAllPaginated(filter, options){
         return productModel.paginate(filter, options);
     }
-    async createProduct(){
+    async createProduct(product){
         return productModel.create(product);
     }
     async updateProduct(pid, product){

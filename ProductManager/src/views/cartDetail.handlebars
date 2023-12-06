@@ -18,9 +18,13 @@
         {{/each}}
       </ul>
       <div class="mt-6">
-        <p class="font-semibold text-lg">Total:  </p>
-        <a href="/{{cart.id}}/purchase/" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Checkout</a>
+        <p class="font-semibold text-lg px-4 py-2">Total: {{cart.totalPrice}} </p>
+        <form id="cartForm">
+          <button id="btnCheck" class="checkoutBtn mt-4 inline-block bg-sky-500 text-white px-4 py-2 rounded hover:bg-sky-600" data-cartid="{{cart.id}}" >Checkout</button>
+        </form>
+        <a href="" id="ticketButton" style="display: none;" class="mt-4 inline-block bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600">Ticket</a>
       </div>
     </div>
   </div>
+  <script src="../../js/checkout.js"></script>
 </body>

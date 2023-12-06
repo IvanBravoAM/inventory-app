@@ -1,7 +1,9 @@
 import  {ProductService}  from "../services/product.service.js";
 import CustomError from "../services/CustomError.js";
 import EErrors from "../services/enum.js";
+import { UserService } from "../services/user.service.js";
 const productService = new ProductService();
+const userService = new UserService();
 
     export const getProducts = async(req, res) =>{
         const {limit=10, page =1, sort, query} = req.query;
@@ -15,10 +17,13 @@ const productService = new ProductService();
         }
         const filter = query ? { $text: { $search: query } } : {}; 
         
-        const {docs, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages, totalDocs }= await productService.getProducts(filter, options);
-        let prods = docs;
+        //const {docs, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages, totalDocs }= await productService.getProductsPag(filter, options);
+        let products = await productService.getProducts();
+        console.log('prods-->>',{products});
+    
         
-        res.send({status:"success", payload: prods,totalDocs:totalDocs, totalPages: totalPages, prevPage: prevPage, nextPage:nextPage, page:page, hasPrevPage:hasPrevPage, hasNextPage:hasNextPage});
+        //res.send({status:"success", payload: prods,totalDocs:totalDocs, totalPages: totalPages, prevPage: prevPage, nextPage:nextPage, page:page, hasPrevPage:hasPrevPage, hasNextPage:hasNextPage});
+        res.render("productslist", {products});
     }
 
     export const getProduct = async (req, res) =>{
@@ -29,9 +34,13 @@ const productService = new ProductService();
 
     export const createProduct = async (req, res) =>{
         try{
-            let {title, description, price, thumbnails, code, status, stock, category, owner} = req.body;
+            let {title, description, price, thumbnails, code, status, stock, category} = req.body;
+            console.log(req.body);
             status = !status || typeof status !== "boolean" ? true : status;
-            const user = req.user;
+            const user = await userService.getUserByEmail(req.session.user.toString());
+            const owner = user._id;
+            console.log(user);
+            
             if(!title || !description || !code || !price || !stock || !category){
                 CustomError.createError(
                     {name:"Create Product Error",
@@ -41,11 +50,10 @@ const productService = new ProductService();
                 });
             }
             let product = {title, description, code, price, stock, category, status, thumbnails, owner}
-            if (user._id.toString() !== product.owner.toString() && !req.user.isAdmin) {
-                // El usuario no es el propietario del producto ni un administrador
+            if (!user.role == 'admin') {
                 return res.status(403).send('No tienes permiso para realizar esta acción.');
             }
-            let response = await productModel.create(product);
+            let response = await productService.addProduct(product);
             res.json({
                 message: "product succesfully added",
                 data: response
@@ -79,7 +87,10 @@ const productService = new ProductService();
         try{
             const {pid} = req.params;
             const product = await productService.getProduct(pid);
-            if (req.user._id.toString() !== product.owner.toString() && !req.user.isAdmin) {
+
+            console.log('req user', req.session.user);
+            const user = userService.getUserByEmail(req.session.user.toString());
+            if (user._id !== product.owner.toString() && user.role == 'admin') {
                 // El usuario no es el propietario del producto ni un administrador
                 return res.status(403).send('No tienes permiso para realizar esta acción.');
             }

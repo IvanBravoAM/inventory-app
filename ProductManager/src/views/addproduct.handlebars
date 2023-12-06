@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <title>Crear Producto</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="bg-gray-100">
     <div class="w-full max-w-xs mx-auto mt-10">
-        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" id="productForm">
+        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" id="productForm" enctype="multipart/form-data">
             <h2 class="text-2xl font-semibold mb-4 text-center">Crear Producto</h2>
 
             <div class="mb-4">
@@ -50,14 +51,15 @@
 
             <div class="mb-4">
                 <label for="thumbnails" class="block text-gray-700 text-sm font-bold mb-2">Imágenes</label>
-                <input type="file" id="thumbnails" name="thumbnails" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" accept="image/*" multiple>
+                <input type="text" id="thumbnails" name="thumbnails" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             </div>
 
             <div class="flex items-center justify-between">
                 <button class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Crear Producto</button>
+                <i id="successIcon" class="fas fa-check-circle text-green-500" style="display: none;"></i>
             </div>
         </form>
     </div>
 </body>
-<script src="../../public/js/addproduct.js"></script>
+<script src="../../js/addproduct.js"></script>
 </html>

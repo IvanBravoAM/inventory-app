@@ -88,7 +88,7 @@ export class CartService{
         }
     }
 
-    async deleteProductsFromCart(cid, productIdsToDelete) {
+    async deleteProductsFromCart(cid) {
         try {
             const cart = await cartRepository.getCart(cid);
             if(!cart){
@@ -99,7 +99,7 @@ export class CartService{
                     code: EErrors.INVALID_TYPES_ERROR
                 });
             }
-            let result = await cartRepository.deleteProductsFromCart(cid, productIdsToDelete);
+            let result = await cartRepository.deleteCartProducts(cart);
             return result;
         }catch(error){
             throw error;

@@ -20,7 +20,7 @@ router.post("/", async (req, res) => {
         respuesta: "error",
     });
     else if(utilInstance.isValidPassword(result[0].password, password)){
-      console.log('oh hi mark');
+        await userModel.findByIdAndUpdate(result[0]._id, { last_connection: new Date() });
         req.session.user = username;
         req.session.admin = result[0].role == 'admin';
         res.status(200).json({
