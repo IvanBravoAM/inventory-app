@@ -87,14 +87,14 @@ const userService = new UserService();
         try{
             const {pid} = req.params;
             const product = await productService.getProduct(pid);
-
-            console.log('req user', req.session.user);
-            const user = userService.getUserByEmail(req.session.user.toString());
-            if (user._id !== product.owner.toString() && user.role == 'admin') {
+            const user = await userService.getUserByEmail(req.session.user.toString());
+            console.log(user);
+            if (user._id.toString() !== product.owner.toString() || user.role != 'admin') {
                 // El usuario no es el propietario del producto ni un administrador
                 return res.status(403).send('No tienes permiso para realizar esta acción.');
             }
             let response = await productService.deleteProduct(pid);
+            await productService.sendDeleteProductEmail(user.email,pid);
             res.json({message:'delete success', data:response})
         }catch(error){
             console.log(error);

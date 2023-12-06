@@ -148,5 +148,5 @@ socketIO.on('connection', (socket)=>{
 morganBody(app);
 // Iniciar el servidor HTTP
 httpServer.listen(config.PORT, () => {
-    devLogger.debug(`Servidor en ejecución en http://localhost:${config.PORT}`);
+    devLogger.debug(`Servidor en ejecución en ${config.HOST_NAME}`);
 });

@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(data => {
                 if (data.success) {
                     console.log('Contraseña restablecida con éxito');
+                    window.location.href = "/";
                 } else {
                     console.log('Error al restablecer la contraseña');
                 }

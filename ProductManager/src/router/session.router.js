@@ -7,6 +7,7 @@ import { transporter } from "../services/mail.service.js";
 import crypto from "crypto";
 import CustomError from "../services/CustomError.js";
 import EErrors from "../services/enum.js";
+import config from "../config/config.js";
 const router = Router();
 
 router.post("/", async (req, res) => {
@@ -26,6 +27,10 @@ router.post("/", async (req, res) => {
         res.status(200).json({
         respuesta: "ok",
         });
+    }else{
+      return res.status(401).json({
+        respuesta: "datos incorrectos",
+    });
     }
   });
 
@@ -117,7 +122,7 @@ router.post(
       from: 'inventory_app@gmail.com',
       to: 'ivanbravo.2201@gmail.com' ,//email,
       subject: 'Recuperación de contraseña',
-      text: `Para restablecer tu contraseña, haz clic en el siguiente enlace: http://localhost:8080/login/reset/${token}`,
+      text: `Para restablecer tu contraseña, haz clic en el siguiente enlace: ${config.HOST_NAME}/login/reset/${token}`,
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -152,13 +157,13 @@ router.post(
 
   router.post('/reset/:token', async (req, res) => {
 
-    const newPassword = req.body.newPassword;
-    const user = await userModel.find({
-      email: req.body.user,
-    });
+    let newPassword = req.body.newPassword;
+    const token= req.params.token;
+    console.log(token);
+    const user = await userModel.findOne({ resetPasswordToken: token });
+    console.log('user',user);
     const previousPassword = user.password;
-    console.log('prev pass ', previousPassword);
-    console.log('email ', email);
+    console.log(' pass ', newPassword);
     console.log('user ', user);
     if (newPassword === previousPassword) {
       CustomError.createError(
@@ -169,10 +174,12 @@ router.post(
     });
       
     } else {
-      user.password = utilInstance.createHash(newPassword);
-      const result = await userModel.updateOne({_id:user.id}, user);
-      console.log('result', result);
-      res.render('/');
+      newPassword = utilInstance.createHash(newPassword);
+
+      console.log('el idd', user._id);
+      const result = await userModel.updateOne({ _id: user._id }, { $set: { password: newPassword } });
+      console.log('resss', result);
+      return res.status(200).json({ success: true, message: 'Contraseña cambiada con éxito' });
     }
   });
 

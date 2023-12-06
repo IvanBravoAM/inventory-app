@@ -94,8 +94,14 @@ async function postLogin(username, password) {
         body: JSON.stringify({ username, password }),
     }).then(response => response.json())
     .then(data => {
+        console.log('data',data);
         if (data.respuesta === "ok") {
             window.location.href = "/view/products";
+        }
+        else{
+            let logdiv = document.getElementById('error-login');
+            logdiv.style.display = 'block';
+            logdiv.innerText= "Wrong username or password";
         }
     })
     .catch(error => {

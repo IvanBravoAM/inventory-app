@@ -1,6 +1,7 @@
 import {Router} from 'express';
 import userController from '../controllers/user.controller.js';
 import uploader from '../utils/uploader.js';
+import {utilInstance} from "../utils.js";
 
 
 const userRouter = Router();
@@ -17,7 +18,7 @@ userRouter.get("/clean", async(req, res) => {
     const result = await userController.deleteInactiveUsers(req, res);
 })
 
-userRouter.get("/:uid",async (req, res)=>{
+userRouter.get("/:uid", utilInstance.sessionValidation, async (req, res)=>{
     const user = await userController.getUserEdit(req, res);
 });
 

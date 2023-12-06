@@ -2,7 +2,7 @@ function uploadFile() {
     const form = document.getElementById('uploadForm');
     const formData = new FormData(form);
   
-    fetch('http://localhost:8000/api/users/documents/', {
+    fetch(`${config.HOST_NAME}/api/users/documents/`, {
       method: 'POST',
       body: formData,
     })

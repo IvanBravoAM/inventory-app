@@ -1,6 +1,7 @@
 import { ProductRepository } from "../DAO/product.repository.js";
 import ProductDTO from "../DTO/product.dto.js";
 const productRepository = new ProductRepository();
+import { transporter } from "../services/mail.service.js";
 
 export class ProductService{
     async getProductsPag(filter, options){
@@ -74,9 +75,25 @@ export class ProductService{
     async deleteProduct(pid){
         try{
             const result = await productRepository.deleteProduct({_id:pid});
+
             return result;
         }catch(error){
             console.log(error);
         }
     }
+
+    async sendDeleteProductEmail(userEmail, productId) {
+        const mailOptions = {
+            from: 'inventory-app@gmail.com',
+            to: userEmail,
+            subject: 'Product Deletion Notification',
+            text: `Your product with Id ${productId} has been deleted.`,
+        };
+        try {
+            await transporter.sendMail(mailOptions);
+            console.log(`Deletion notification email sent to ${userEmail}`);
+        } catch (error) {
+            console.error('Error sending deletion notification email:', error);
+        }
+        }
 }

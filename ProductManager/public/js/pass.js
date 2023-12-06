@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    window.location.href = "/";
 
                 } else {
                 
